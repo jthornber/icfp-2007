@@ -12,8 +12,6 @@ import System.IO
 import FastString3 (FastString)
 import qualified FastString3 as FS
 
-import Debug.Trace
-
 ----------------------------------------------------------------
 
 type Base = Char
@@ -51,7 +49,7 @@ quote :: DNA -> DNA
 quote d =  let l = FS.length d in
            if l == 0
            then FS.empty
-           else FS.pack $ concatMap (qt . fromJust . FS.index d) [0..((trace ("quote " ++ show l)) $ l - 1)]
+           else FS.pack $ concatMap (qt . fromJust . FS.index d) [0..l - 1]
     where
       qt c = case c of
                'I' -> "C"
