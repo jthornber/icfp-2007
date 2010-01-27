@@ -1,0 +1,108 @@
+* ICFP 2007
+
+My first contest !
+
+** DONE Get problem
+   CLOSED: [2007-07-20 Fri 11:30]
+
+** DONE Print problem
+   CLOSED: [2007-07-20 Fri 11:30]
+
+** DONE Read problem
+   CLOSED: [2007-07-20 Fri 12:11]
+
+   Looks great fun !
+
+   So there's 2 levels to this problem:
+
+   1) Implement the machinery for DNA -> RNA -> Picture in an efficient manner
+   2) find/optimise a prefix for mutating the DNA
+
+   I'll concentrate on (1) for the first, while I gently think about
+   the hard problem in the background.
+
+
+** TODO Read problem again !
+
+
+** TODO Implement Arrow machinery [1/1]
+
+   How do we make this fast enough.  Looks straight forward to
+   implement in Haskell (will still take several hours though).
+   Longer in C.  So I guess we have 3 implementation strategies:
+
+   1. Pure C
+   2. Pure Haskell
+   3. Haskell with C FFI for the slow bits
+   4. Haskell generate C
+
+   I don't want to use pure C.  (2, 3, 4) all require an initial
+   Haskell implementation, so this is what I'll do - concentrating on
+   correctness rather than speed.  [12:20]
+
+   - [X] Implement sequences (Figure 3)
+
+   Hmm, having re-think over the pure C version.  Runnning the exiting
+   dna takes 2 million iterations, so we're looking at many million
+   bases.  With C, we can pack that much more tightly.  I guess we can
+   pack a bytestring with Data.Binary too.  Laziness will help a lot,
+   probably don't need everything in memory at once.
+
+
+   [2007-07-24 Tue] Rewrite of dna -> rna in Haskell has got to the
+   stage where it runs in ~15 minutes.
+
+   The prefix hint given in the instructions brings up a test image.
+   Very reassuring.  (hint.gbc.png)
+
+   The random prefix: that I discovered at the weekend:
+   IIPIFFCPICFPPICIICCIICIPPPFIIC
+
+   brings up the first page of the field repair guide !
+
+   Help on accessing topics: IIPIFFCPICFPPICIICCCIICIPPPCFIIC
+   To orient towards the sun ?!: IIPIFFCPICPCIICICIICIPPPPIIC
+
+   [2007-07-29 Sun] Taking out the State monad drastically sped things
+   up.  rna2dna is now running in ~1:30 (25k iterations per second),
+   faster than the other haskell implementations I was pointed to.
+   Looking at the profile, 'length' is now the function that needs
+   optimising - not because it's slow but becuase it gets called a
+   huge number of times.  The correct solution is to balance the Cat
+   tree properly.  One nice thing is processing Endo.dna only takes
+   ~12M of RAM - which is impressive.
+
+   Lessons learned so far ...
+
+   1. Haskell can be really, really fast - even for something like this
+   2. If you're not sure about the data structures/algorithm it's much
+      easier to experiment in haskell.  Conversly prematurely coding
+      something up in C leads to disappointment.
+   3. Using a state monad to simulate frequently accessed global
+      variables will give poor performance.
+   4. building with -prof -auto-all and then running with +RTS -p
+      gives a very useable profile.
+   5. 'let's are a bad source of retainership, start looking here if
+      you have memory growth problems.
+
+   <2009-09-28 Mon> Just retrieved this code from TimeMachine, moved
+   to desktop and rebuilt with latest Haskell.  dna2rna now runs in 26
+   seconds :)
+
+   <2009-10-14 Wed> Tried a FastString implementation that's just a
+   light wrapper around Data.Seq.  Takes ~78 for endo with the null
+   prefix, compared with ~40 for the usual implementation.  Very
+   impressived with Seq!
+
+*** TODO Replace Cat tree.
+
+    We need a data structure that:
+
+    - is balanced, or maybe skewed towards quick accesses at the front
+    - has fast merge
+    - can add to front or back (middle isn't necc.)
+    - can be pruned from either front or back (ie. split)
+
+    The binomial random access arrays in Okasaki look good, but I'm
+    not sure how they'll handle the pruning.  The merge is O(1)
+    though, which would make dna2rna fly.
