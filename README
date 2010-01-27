@@ -1,1 +1,35 @@
-Here's the code I wrote whilst trying to save Endo.  Alas I didn't.  Poor Endo.
+Here's the code I wrote whilst trying to save Endo.  Alas I didn't.
+Poor Endo.
+
+It's a bit complicated to use:
+
+* build dna2rna
+
+   cabal configure
+   cabal build
+
+* run specifying a prefix on the command line
+
+   ./dist/build/dna2rna/dna2rna "" < dna/endo.dna  > out.rna
+
+* build rna2gbc (gbc = graphics bytecode)
+
+   make rna2gbc
+
+* run rna2gbc
+
+   ./rna2gbc +RTS -K100M < out.rna > out.gbc
+
+* build draw
+
+   make draw
+
+* run draw, this will produce out.raw (hard coded)
+
+   ./draw out.gbc
+
+* Use image magic to convert to something you can actually view
+
+  ./raw2png out.raw
+
+This produces out.raw.png, finally something you can view.
