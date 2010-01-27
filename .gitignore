@@ -1,0 +1,20 @@
+*~
+*.[oa]
+*.hi
+*.prof
+
+# cabal builds in here
+dist/*
+
+# programs
+dna2rna
+arrow
+FastStringBench
+FastStringTest
+FastStringVisualise
+draw
+rna2gbc
+
+# These are intermediate files
+*.rna
+
