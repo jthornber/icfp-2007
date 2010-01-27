@@ -1,0 +1,48 @@
+name: icfp2007-ejt
+version: 0.1
+cabal-version: -any
+build-type: Simple
+license: AllRightsReserved
+license-file: ""
+copyright:
+maintainer: Joe Thornber
+build-depends: base -any, bytestring -any, containers -any,
+               haskell98 -any
+stability:
+homepage:
+package-url:
+bug-reports:
+synopsis: ICFP code
+description: Joe Thornbers ICFP 2007 code
+category: games
+author: Joe Thornber
+tested-with:
+data-files: "" ICFP2007/dna/endo.dna
+data-dir: ""
+extra-source-files:
+extra-tmp-files:
+ 
+executable: dna2rna
+main-is: dna2rna.hs
+buildable: True
+build-tools:
+cpp-options:
+cc-options:
+ld-options:
+pkgconfig-depends:
+frameworks:
+c-sources:
+extensions:
+extra-libraries:
+extra-lib-dirs:
+includes:
+install-includes:
+include-dirs:
+hs-source-dirs: .
+other-modules:
+ghc-prof-options:
+ghc-shared-options:
+ghc-options:
+hugs-options:
+nhc98-options:
+jhc-options:
