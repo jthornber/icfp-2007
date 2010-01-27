@@ -17,4 +17,7 @@ rna2gbc
 
 # These are intermediate files
 *.rna
+*.gbc
+*.raw
+*.png
 
