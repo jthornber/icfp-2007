@@ -1,0 +1,3 @@
+#!/bin/sh
+
+convert -size 600x600 -depth 8 +matte rgb:$1 $1.png
