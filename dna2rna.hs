@@ -9,8 +9,8 @@ import Foreign
 import System.Environment
 import System.IO
 
-import FastString3 (FastString)
-import qualified FastString3 as FS
+import FastString (FastString)
+import qualified FastString as FS
 
 ----------------------------------------------------------------
 
