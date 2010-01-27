@@ -136,7 +136,6 @@ once' dna = do
       isTPush (TPushRNA _) = True
       isTPush _ = False
 
--- Here's a comment
 matchReplace :: DNA -> Pattern -> Template -> DNA
 matchReplace dna p t = case match dna p of
                          Just (e, dna') -> FS.append (replace t e) dna'
